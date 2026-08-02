@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pavel Stenikov | Portfolio</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --page: #ffffff;
+      --ink: #2d2d2d;
+      --text: #404040;
+      --muted: #8c8c8c;
+      --panel: #f3f4f6;
+      --container: 1300px;
+      --gutter: 24px;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--page);
+      color: var(--text);
+      font-family: 'Onest', sans-serif;
+      line-height: 1.5;
+      letter-spacing: -0.03em;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 var(--gutter); }
+
+    /* ВЕРХНЯЯ ШАПКА "СТЕКЛО" */
+    .home-header {
+      position: fixed;
+      top: 28px;
+      left: 50%;
+      z-index: 100;
+      display: flex;
+      transform: translateX(-50%);
+      animation: floatIn 0.8s var(--ease-out) forwards;
+    }
+
+    .home-header__panel {
+      display: flex;
+      width: 600px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px 10px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+      transition: box-shadow 0.3s var(--ease-out);
+    }
+
+    .home-header__panel:hover {
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.09);
+    }
+
+    .home-header__brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--ink);
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .home-header__avatar {
+      display: block;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #e9e9e9;
+      flex-shrink: 0;
+      transition: transform 0.4s var(--ease-out);
+    }
+
+    .home-header__brand:hover .home-header__avatar {
+      transform: scale(1.08) rotate(3deg);
+    }
+
+    .home-header__avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .home-header__nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 16px;
+      color: var(--ink);
+    }
+
+    /* Стандартные кнопки без лишних ховер-эффектов */
+    .ui-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border-radius: 999px;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+
+    .ui-button--black {
+      background: var(--ink);
+      color: #fff !important;
+    }
+
+    .ui-button--black:hover {
+      background: #404040;
+    }
+
+    /* HERO БЛОК С АНИМАЦИЕЙ ПРИ ЗАГРУЗКЕ */
+    .hero {
+      margin-top: 150px;
+      padding: 40px 0 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      animation: fadeInUp 1s var(--ease-out) 0.2s forwards;
+    }
+
+    .hero-photo {
+      width: 130px;
+      height: 130px;
+      border-radius: 28px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      background: var(--panel);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out);
+    }
+
+    .hero-photo:hover {
+      transform: scale(1.05) translateY(-4px);
+      box-shadow: 0 16px 35px rgba(0,0,0,0.1);
+    }
+
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+    .hero h1 {
+      font-size: 38px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 4px;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--muted);
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    .hero-desc {
+      max-width: 760px;
+      font-size: 22px;
+      line-height: 32px;
+      color: var(--ink);
+      margin-bottom: 32px;
+    }
+
+    /* БЕГУЩАЯ СТРОКА (БЕСШОВНАЯ) */
+    .marquee {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+      user-select: none;
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      will-change: transform;
+      animation: marquee 24s linear infinite;
+    }
+
+    .marquee:hover .marquee-track {
+      animation-play-state: paused;
+    }
+
+    .marquee-group {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      padding-right: 48px;
+    }
+
+    .marquee-item {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      transition: color 0.3s, transform 0.3s;
+    }
+
+    .marquee-item:hover {
+      color: var(--ink);
+      transform: scale(1.05);
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* СЕКЦИИ И АНИМАЦИЯ ПО СКРОЛЛУ */
+    .section-block {
+      margin-top: 96px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+    }
+
+    .section-block.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .section-title { margin-bottom: 24px; }
+    .section-title h2 { font-size: 32px; font-weight: 500; color: var(--ink); }
+    .section-title p { color: var(--muted); font-size: 18px; margin-top: 4px; }
+
+    .grid-asymmetric {
+      display: grid;
+      grid-template-columns: 1.8fr 1fr;
+      grid-template-rows: repeat(2, 280px);
+      gap: 16px;
+    }
+
+    .grid-trio {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    /* КАРТОЧКИ С ПРИПОДНИМАНИЕМ */
+    .photo-card {
+      background: var(--panel);
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+    }
+
+    .photo-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s var(--ease-out);
+    }
+
+    .photo-card:hover img {
+      transform: scale(1.04);
+    }
+
+    .photo-large { grid-row: span 2; }
+    .photo-trio-item { height: 280px; }
+
+    .video-card {
+      background: #000;
+      border-radius: 20px;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      transition: transform 0.4s var(--ease-out);
+    }
+
+    .video-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .video-card video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* ФУТЕР (Обновленный в стиле Eldar) */
+    footer {
+      margin-top: 128px;
+      padding-top: 60px;
+      background: var(--ink);
+      color: #fff;
+      border-radius: 32px 32px 0 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .footer-top {
+      max-width: var(--container);
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      display: flex;
+      justify-content: space-between;
+      font-size: 16px;
+      margin-bottom: 60px;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .footer-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 24px;
+      background: #fff;
+      color: var(--ink) !important;
+      border-radius: 999px;
+      font-weight: 500;
+      width: fit-content;
+      transition: opacity 0.2s;
+    }
+
+    .footer-btn:hover {
+      opacity: 0.9;
+    }
+
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-links {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-links a {
+      transition: opacity 0.2s;
+    }
+
+    .footer-links a:hover {
+      opacity: 0.7;
+    }
+
+    .footer-giant {
+      width: 100%;
+      text-align: center;
+      font-size: 15.5vw;
+      font-weight: 600;
+      line-height: 0.75;
+      letter-spacing: -0.04em;
+      color: #fff;
+      white-space: nowrap;
+      margin-bottom: -1vw;
+    }
+
+    /* KEYFRAMES */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes floatIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .home-header__panel { width: calc(100vw - 32px); }
+      .grid-asymmetric, .grid-trio { grid-template-columns: 1fr; grid-template-rows: auto; }
+      .photo-large { grid-row: span 1; height: 300px; }
+      .photo-trio-item { height: 240px; }
+      .footer-top { flex-direction: column; gap: 40px; }
+      .footer-giant { font-size: 17vw; margin-bottom: -1.5vw; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ВЕРХНЯЯ ШАПКА "СТЕКЛО" -->
+  <header class="home-header home-header--main" aria-label="Основная навигация">
+    <div class="home-header__panel">
+      <a class="home-header__brand" href="./index.html" aria-label="Павел Стеников">
+        <span class="home-header__avatar">
+          <img src="photo_2026-07-30_12-56-20.jpg" alt="Павел Стеников" />
+        </span>
+        <span>Павел Стеников</span>
+      </a>
+      <nav class="home-header__nav">
+        <a href="Павел_Стеников_Резюме.pdf" target="_blank" rel="noopener noreferrer" aria-label="Резюме">Резюме</a>
+        <!-- ОБНОВЛЕННАЯ ССЫЛКА НА TELEGRAM В МЕНЮ -->
+        <a class="ui-button ui-button--m ui-button--black" href="https://t.me/Aqualll" target="_blank" rel="noopener noreferrer">Telegram</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <main>
+      
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-photo">
+          <img src="photo_2026-07-30_12-56-20.jpg" alt="Павел Стеников" />
+        </div>
+        <h1>Павел Стеников</h1>
+        <div class="hero-subtitle">3D Artist & Technical Designer</div>
+        <p class="hero-desc">
+          Помогаю воплощать сложные технические и игровые концепты в 3D.<br />
+          Выстраиваю полный цикл: от калибровки кадров и чистой топологии до риггинга и оптимизации сетки.
+        </p>
+        
+        <!-- БЕГУЩАЯ СТРОКА (БЕСШОВНАЯ) -->
+        <div class="marquee">
+          <div class="marquee-track">
+            <!-- Группа 1 -->
+            <div class="marquee-group">
+              <span class="marquee-item">Blender</span>
+              <span class="marquee-item">Autodesk AutoCAD</span>
+              <span class="marquee-item">Компас-3D</span>
+              <span class="marquee-item">Adobe Photoshop</span>
+              <span class="marquee-item">Cascadeur</span>
+              <span class="marquee-item">ImageModeler</span>
+            </div>
+            <!-- Группа 2 (Дубликат для бесшовности) -->
+            <div class="marquee-group">
+              <span class="marquee-item">Blender</span>
+              <span class="marquee-item">Autodesk AutoCAD</span>
+              <span class="marquee-item">Компас-3D</span>
+              <span class="marquee-item">Adobe Photoshop</span>
+              <span class="marquee-item">Cascadeur</span>
+              <span class="marquee-item">ImageModeler</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- AUDI RS E-TRON GT -->
+      <section class="section-block">
+        <div class="section-title">
+          <h2>Audi RS e-tron GT</h2>
+          <p>3D-моделирование авто: рендеры кузова и демонстрация топологии сетки.</p>
+        </div>
+        <div class="grid-asymmetric">
+          <div class="photo-card photo-large">
+            <img src="JVwB9KJNZwLdNe-LcKBXP4RNCV8K0u-mvc8zQmgzoO5MyYTWS0AJANBjhaFIdc53lCSxJGyobq6vwf1icEJU4DaE.jpg" alt="Audi Вид спереди" />
+          </div>
+          <div class="photo-card">
+            <img src="Fz4MY1yUYC5_SjSPuLaejArWKZQKbxhy28--4fGhW5uaeZL9x-nVmJLTXqDPpIqqj-PmVaTn4-KaOXmUWURjnxT2.jpg" alt="Audi Вид сзади" />
+          </div>
+          <div class="photo-card">
+            <img src="_t6f9fTOh9KzXk9wSKOQXo0rDJ-BJg4_EssfFgf3srPTFOf8eqBmTMTqPDLT_8qk8I56vHeM-tA35ndd58UlQPId.jpg" alt="Audi Сетка Wireframe" />
+          </div>
+        </div>
+      </section>
+
+      <!-- МИКРОСКОП JEOL -->
+      <section class="section-block">
+        <div class="section-title">
+          <h2>Микроскоп JEOL JSM-6490LV</h2>
+          <p>Моделирование сложного лабораторного оборудования с сеткой в Blender.</p>
+        </div>
+        <div class="grid-asymmetric">
+          <div class="photo-card photo-large">
+            <img src="21213.png" alt="Рендер ракурс 1" />
+          </div>
+          <div class="photo-card">
+            <img src="12313.png" alt="Рендер ракурс 2" />
+          </div>
+          <div class="photo-card">
+            <img src="213213.png" alt="Сетка в Blender" />
+          </div>
+        </div>
+      </section>
+
+      <!-- МЕБЕЛЬ И ИНТЕРЬЕР -->
+      <section class="section-block">
+        <div class="section-title">
+          <h2>Мебель & Предметный дизайн</h2>
+          <p>Серия моделей кроватей. Текстурирование дерева, ткани и интерьерный свет.</p>
+        </div>
+        <div class="grid-asymmetric">
+          <div class="photo-card photo-large">
+            <img src="2.jpg" alt="Двухъярусная кровать с лестницей" />
+          </div>
+          <div class="photo-card">
+            <img src="11.png" alt="Односпальная кровать" />
+          </div>
+          <div class="photo-card">
+            <img src="3.jpg" alt="Белая двухъярусная кровать" />
+          </div>
+        </div>
+      </section>
+
+      <!-- ИНЖЕНЕРНОЕ МОДЕЛИРОВАНИЕ CAD -->
+      <section class="section-block">
+        <div class="section-title">
+          <h2>Инженерное моделирование (CAD)</h2>
+          <p>Проектирование механических сборок, узлов и направляющих компонентов.</p>
+        </div>
+        <div class="grid-asymmetric">
+          <div class="photo-card photo-large">
+            <img src="photo_1_2026-08-01_04-38-15.jpg" alt="Станок сборка" />
+          </div>
+          <div class="photo-card">
+            <img src="photo_5_2026-08-01_04-38-15.jpg" alt="Деталь с пружиной" />
+          </div>
+          <div class="photo-card">
+            <img src="123213.png" alt="Корпус сборка" />
+          </div>
+        </div>
+      </section>
+
+      <!-- ЛЕГО МЕХАНИЗМЫ -->
+      <section class="section-block">
+        <div class="section-title">
+          <h2>Прототипирование механизмов (Lego Technic)</h2>
+          <p>Точное 3D-моделирование редукторов, реечных передач и колесных баз.</p>
+        </div>
+        <div class="grid-trio">
+          <div class="photo-card photo-trio-item">
+            <img src="photo_7_2026-08-01_04-38-15.jpg" alt="Lego Шасси" />
+          </div>
+          <div class="photo-card photo-trio-item">
+            <img src="photo_8_2026-08-01_04-38-15.jpg" alt="Lego Механизм" />
+          </div>
+          <div class="photo-card photo-trio-item">
+            <img src="photo_6_2026-08-01_04-38-15.jpg" alt="Lego Реечный механизм" />
+          </div>
+        </div>
+      </section>
+
+      <!-- ДИПЛОМ С ВИДЕО -->
+      <section class="section-block">
+        <div class="section-title">
+          <h2>Дипломный проект: AR-приложение</h2>
+          <p>Разработка мобильного приложения дополненной реальности (НИУ МИЭТ / EligoVision).</p>
+        </div>
+        <div class="video-card">
+          <video controls preload="metadata">
+            <source src="ИТД_41_Стеников_Павел_Демонстрационный_видеоролик.mp4" type="video/mp4">
+          </video>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ОБНОВЛЕННЫЙ ФУТЕР -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-left">
+        <p>© 2026 Pavel Stenikov</p>
+        <a href="https://t.me/Aqualll" target="_blank" rel="noopener noreferrer" class="footer-btn">Telegram</a>
+      </div>
+      <div class="footer-right">
+        <p>@Aqualll</p>
+        <p>Vadim444419@gmail.com</p>
+      </div>
+    </div>
+    <!-- ГИГАНТСКИЙ ТЕКСТ КАК В РЕФЕРЕНСЕ -->
+    <div class="footer-giant">
+      Pavel.Stenikov
+    </div>
+  </footer>
+
+  <!-- СКРИПТ ДЛЯ ПЛАВНОГО ПОЯВЛЕНИЯ ПРИ СКРОЛЛЕ -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observerOptions = {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('.section-block').forEach(section => {
+        observer.observe(section);
+      });
+    });
+  </script>
+
+</body>
+</html>
